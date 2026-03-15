@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keluhan Wisata Labuan Bajo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- NOTIFIKASI -->
+  <div id="notifikasi" class="notifikasi">
+    Laporan berhasil dikirim!
+  </div>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="logo">🌴 Keluhan Wisata Labuan Bajo</div>
+
+    <nav>
+      <button onclick="showPage('home')">Beranda</button>
+      <button onclick="showPage('lapor')">Buat Laporan</button>
+      <button onclick="showPage('daftar')">Daftar Laporan</button>
+      <button onclick="showPage('admin')">Admin</button>
+    </nav>
+  </header>
+
+  <!-- BERANDA -->
+  <section id="home" class="page">
+
+    <div class="hero">
+      <h1>Sistem Laporan Keluhan Wisata Labuan Bajo</h1>
+
+      <p>
+        Platform digital untuk menyampaikan pengaduan mengenai fasilitas wisata,
+        kebersihan, keamanan, dan pelayanan di kawasan wisata Labuan Bajo.
+      </p>
+
+      <div class="hero-btn">
+        <button onclick="showPage('lapor')">Buat Laporan Keluhan</button>
+        <button onclick="showPage('daftar')" class="secondary">Lihat Laporan</button>
+      </div>
+    </div>
+
+    <!-- CARA KERJA -->
+    <div class="cara-kerja">
+
+      <h2>Bagaimana Sistem Ini Bekerja?</h2>
+
+      <div class="card-container">
+
+        <div class="card">
+          <div class="icon">📄</div>
+          <h3>Laporkan Keluhan</h3>
+          <p>Isi form laporan dengan detail keluhan termasuk lokasi dan bukti.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon">🛡️</div>
+          <h3>Ditindaklanjuti</h3>
+          <p>Pengelola wisata akan menerima dan memproses laporan.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon">✨</div>
+          <h3>Wisata Lebih Baik</h3>
+          <p>Kontribusi Anda membantu meningkatkan kualitas pariwisata.</p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- FORM LAPORAN -->
+  <section id="lapor" class="page hidden">
+
+    <h2>Buat Laporan Keluhan</h2>
+    <p>Sampaikan keluhan Anda agar dapat segera ditindaklanjuti.</p>
+
+    <form id="formKeluhan">
+
+      <div class="form-row">
+
+        <div class="form-group">
+          <label>Nama Pelapor *</label>
+          <input type="text" id="nama" placeholder="Nama lengkap" required>
+        </div>
+
+        <div class="form-group">
+          <label>Email *</label>
+          <input type="email" id="email" placeholder="email@contoh.com" required>
+        </div>
+
+      </div>
+
+      <div class="form-row">
+
+        <div class="form-group">
+          <label>Asal Kota / Negara</label>
+          <input type="text" id="asal" placeholder="Jakarta, Indonesia">
+        </div>
+
+        <div class="form-group">
+          <label>Nama Tempat Wisata *</label>
+          <select id="lokasi">
+            <option value="">Pilih tempat wisata</option>
+            <option>Pulau Komodo</option>
+            <option>Pantai Pink</option>
+            <option>Pulau Padar</option>
+            <option>Gua Rangko</option>
+            <option>Bukit Cinta</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="form-group">
+        <label>Jenis Keluhan *</label>
+        <select id="jenis">
+          <option>Fasilitas Rusak</option>
+          <option>Kebersihan</option>
+          <option>Pelayanan</option>
+          <option>Keamanan</option>
+          <option>Akses Jalan</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Deskripsi Keluhan *</label>
+        <textarea id="deskripsi" placeholder="Jelaskan masalah yang Anda temukan"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Tanggal Kejadian</label>
+        <input type="date" id="tanggal">
+      </div>
+
+      <button type="submit">Kirim Laporan</button>
+
+    </form>
+
+  </section>
+
+  <!-- DAFTAR LAPORAN -->
+  <section id="daftar" class="page hidden">
+
+    <h2>Daftar Laporan Keluhan</h2>
+    <div id="laporanContainer"></div>
+
+  </section>
+
+  <!-- ADMIN -->
+  <section id="admin" class="page hidden">
+
+    <h2>Panel Admin</h2>
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Pelapor</th>
+          <th>Lokasi</th>
+          <th>Jenis</th>
+          <th>Status</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+
+      <tbody id="adminTable"></tbody>
+
+    </table>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Sistem Laporan Keluhan Wisata Labuan Bajo</p>
+  </footer>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
