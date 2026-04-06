@@ -34,25 +34,58 @@ top:0;
 z-index:1000;
 }
 
+.nav-right{
+display:flex;
+align-items:center;
+gap:15px;
+position:relative; /* penting buat posisi menu */
+}
+
 .logo{
 font-weight:bold;
 font-size:18px;
 }
 
-nav button{
-margin-left:10px;
-padding:9px 18px;
-border:none;
-background:linear-gradient(135deg,var(--primary),var(--primary2));
-color:white;
-border-radius:25px;
+/* ICON ☰ */
+.menu-icon{
+font-size:28px;
 cursor:pointer;
-font-weight:500;
+color:black;
+font-weight:bold;
+z-index:2000;
 }
 
-nav button:hover{
-transform:translateY(-2px);
-box-shadow:0 5px 15px rgba(0,0,0,0.2);
+/* MENU DROPDOWN */
+.menu{
+position:absolute;
+top:50px;
+right:0;
+background:white;
+padding:15px;
+border-radius:10px;
+box-shadow:0 5px 20px rgba(0,0,0,0.1);
+display:none;
+flex-direction:column;
+gap:10px;
+min-width:150px;
+z-index:1500;
+}
+
+.menu button,
+.menu a{
+padding:10px;
+border:none;
+background:#1f8ea7;
+color:white;
+border-radius:8px;
+text-decoration:none;
+cursor:pointer;
+text-align:center;
+}
+
+.menu button:hover,
+.menu a:hover{
+background:#166b7d;
 }
 
 /* PAGE */
@@ -190,6 +223,7 @@ gap:10px;
 .form-row{
 display:flex;
 gap:20px;
+flex-wrap:wrap; /* biar responsive */
 }
 
 .form-group{
@@ -199,11 +233,6 @@ flex-direction:column;
 margin-bottom:15px;
 }
 
-.form-group label{
-font-weight:600;
-margin-bottom:6px;
-}
-
 form input,
 form select,
 form textarea{
@@ -211,14 +240,6 @@ padding:12px;
 border-radius:8px;
 border:1px solid #ddd;
 font-size:14px;
-}
-
-form input:focus,
-form select:focus,
-form textarea:focus{
-outline:none;
-border-color:var(--primary);
-box-shadow:0 0 0 2px rgba(31,142,167,0.15);
 }
 
 form textarea{
@@ -235,7 +256,7 @@ border-radius:8px;
 cursor:pointer;
 }
 
-/* LAPORAN CARD */
+/* LAPORAN */
 
 .laporan-card{
 background:white;
@@ -244,15 +265,6 @@ border-radius:14px;
 box-shadow:0 8px 25px rgba(0,0,0,0.08);
 margin-bottom:20px;
 border-left:8px solid var(--primary);
-}
-
-.laporan-card h3{
-margin-bottom:10px;
-}
-
-.laporan-card p{
-margin:6px 0;
-line-height:1.5;
 }
 
 /* STATUS */
@@ -274,7 +286,7 @@ background:#d4f8e8;
 color:#1e9e63;
 }
 
-/* ADMIN TABLE */
+/* TABLE */
 
 table{
 width:100%;
@@ -285,36 +297,10 @@ border-collapse:collapse;
 box-shadow:0 6px 20px rgba(0,0,0,0.08);
 }
 
-thead{
-background:linear-gradient(135deg,var(--primary),var(--primary2));
-color:white;
-}
-
 th,td{
 padding:12px;
 border-bottom:1px solid #eee;
 text-align:center;
-}
-
-tr:hover{
-background:#f4f7fb;
-}
-
-table button{
-padding:6px 10px;
-border:none;
-border-radius:6px;
-cursor:pointer;
-}
-
-table button:first-child{
-background:#2ecc71;
-color:white;
-}
-
-table button:last-child{
-background:#e74c3c;
-color:white;
 }
 
 /* FOOTER */
