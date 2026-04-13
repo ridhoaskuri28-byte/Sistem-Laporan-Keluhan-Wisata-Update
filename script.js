@@ -1,123 +1,108 @@
-function showPage(page){
-  document.querySelectorAll(".page").forEach(p => p.classList.add("hidden"));
-  document.getElementById(page).classList.remove("hidden");
-}
-
 function toggleMenu(){
   let menu = document.getElementById("menu");
-
-  if(menu.style.display === "flex"){
-    menu.style.display = "none";
-  } else {
-    menu.style.display = "flex";
-  }
+  menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
 }
 
 document.addEventListener("DOMContentLoaded", function(){
 
-  tampilLaporan();
-  tampilAdmin();
+  loadLaporan();
+  loadAdmin();
 
   let form = document.getElementById("formKeluhan");
 
-  if(form){ // ✅ ini fix error
+  if(form){
     form.addEventListener("submit", function(e){
       e.preventDefault();
 
-      let laporan = {
-        nama: document.getElementById("nama").value,
-        email: document.getElementById("email").value,
-        asal: document.getElementById("asal").value,
-        lokasi: document.getElementById("lokasi").value,
-        jenis: document.getElementById("jenis").value,
-        deskripsi: document.getElementById("deskripsi").value,
-        tanggal: document.getElementById("tanggal").value,
-        status: "Diproses"
-      };
+      let formData = new FormData();
+      formData.append("nama", document.getElementById("nama").value);
+      formData.append("email", document.getElementById("email").value);
+      formData.append("asal", document.getElementById("asal").value);
+      formData.append("lokasi", document.getElementById("lokasi").value);
+      formData.append("jenis", document.getElementById("jenis").value);
+      formData.append("deskripsi", document.getElementById("deskripsi").value);
+      formData.append("tanggal", document.getElementById("tanggal").value);
 
-      let data = JSON.parse(localStorage.getItem("laporan")) || [];
-      data.push(laporan);
-
-      localStorage.setItem("laporan", JSON.stringify(data));
-
-      form.reset();
-
-      tampilNotifikasi();
-      tampilLaporan();
-      tampilAdmin();
+      fetch("simpan_laporan.php", {
+        method: "POST",
+        body: formData
+      })
+      .then(res => res.text())
+      .then(data => {
+        alert("Laporan berhasil dikirim!");
+        form.reset();
+        loadLaporan();
+        loadAdmin();
+      });
     });
   }
 
 });
 
-function tampilNotifikasi(){
-  let notif = document.getElementById("notifikasi");
-  notif.style.display = "block";
+function loadLaporan(){
+  fetch("ambil_laporan.php")
+  .then(res => res.json())
+  .then(data => {
+    let container = document.getElementById("laporanContainer");
 
-  setTimeout(()=>{
-    notif.style.display = "none";
-    showPage("daftar");
-  },2000);
+    if(container){
+      container.innerHTML = "";
+
+      data.forEach(l => {
+        container.innerHTML += `
+          <div class="laporan-card">
+            <h3>${l.nama}</h3>
+            <p><b>Lokasi:</b> ${l.lokasi}</p>
+            <p><b>Jenis:</b> ${l.jenis}</p>
+            <p>${l.deskripsi}</p>
+            <p><b>Tanggal:</b> ${l.tanggal}</p>
+            <p>Status: <b>${l.status}</b></p>
+          </div>
+        `;
+      });
+    }
+  });
 }
 
-function tampilLaporan(){
-  let data = JSON.parse(localStorage.getItem("laporan")) || [];
-  let container = document.getElementById("laporanContainer");
+function loadAdmin(){
+  fetch("ambil_laporan.php")
+  .then(res => res.json())
+  .then(data => {
+    let table = document.getElementById("adminTable");
 
-  if(container){
-    container.innerHTML = "";
+    if(table){
+      table.innerHTML = "";
 
-    data.forEach(l=>{
-      container.innerHTML += `
-      <div class="laporan-card">
-        <h3>${l.nama}</h3>
-        <p><b>Lokasi:</b> ${l.lokasi}</p>
-        <p><b>Jenis:</b> ${l.jenis}</p>
-        <p>${l.deskripsi}</p>
-        <p><b>Tanggal:</b> ${l.tanggal}</p>
-        <p>Status: <span class="status ${l.status}">${l.status}</span></p>
-      </div>
-      `;
-    });
-  }
+      data.forEach(l => {
+        table.innerHTML += `
+          <tr>
+            <td>${l.nama}</td>
+            <td>${l.lokasi}</td>
+            <td>${l.jenis}</td>
+            <td>${l.status}</td>
+            <td>
+              <button onclick="updateStatus(${l.id})">✔</button>
+              <button onclick="hapusData(${l.id})">🗑</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+  });
 }
 
-function tampilAdmin(){
-  let data = JSON.parse(localStorage.getItem("laporan")) || [];
-  let table = document.getElementById("adminTable");
-
-  if(table){
-    table.innerHTML = "";
-
-    data.forEach((l,i)=>{
-      table.innerHTML += `
-      <tr>
-        <td>${l.nama}</td>
-        <td>${l.lokasi}</td>
-        <td>${l.jenis}</td>
-        <td>${l.status}</td>
-        <td>
-          <button onclick="selesai(${i})">✔</button>
-          <button onclick="hapus(${i})">🗑</button>
-        </td>
-      </tr>
-      `;
-    });
-  }
+function updateStatus(id){
+  fetch("update_status.php?id=" + id)
+  .then(() => {
+    loadLaporan();
+    loadAdmin();
+  });
 }
 
-function selesai(index){
-  let data = JSON.parse(localStorage.getItem("laporan"));
-  data[index].status = "Selesai";
-  localStorage.setItem("laporan", JSON.stringify(data));
-  tampilLaporan();
-  tampilAdmin();
-}
-
-function hapus(index){
-  let data = JSON.parse(localStorage.getItem("laporan"));
-  data.splice(index,1);
-  localStorage.setItem("laporan", JSON.stringify(data));
-  tampilLaporan();
-  tampilAdmin();
+function hapusData(id){
+  fetch("hapus_laporan.php?id=" + id)
+  .then(() => {
+    loadLaporan();
+    loadAdmin();
+  });
 }
