@@ -48,16 +48,20 @@ body{
     <a class="navbar-brand">Dashboard Laporan Wisata</a>
 
     <div>
-      <a href="index.html" class="btn btn-light">Halaman Laporan</a>
+      <a href="index.php" class="btn btn-light">Halaman Laporan</a>
       <a href="logout.php" class="btn btn-outline-light">Logout</a>
     </div>
   </div>
 </nav>
 
-<!-- CONTENT -->
 <div class="container mt-5">
 
-<h3 class="mb-4">Selamat Datang di Sistem Laporan</h3>
+<h3 class="mb-4">
+  Selamat Datang, 
+  <?php 
+    echo $_SESSION['email']; 
+  ?>
+</h3>
 
 <div class="row mb-4">
 
@@ -91,7 +95,7 @@ body{
       <h4>📝</h4>
       <h5>Buat Laporan</h5>
       <p>Kirim keluhan wisata</p>
-      <a href="index.html?page=lapor" class="btn btn-primary">Buka</a>
+      <a href="index.php?page=lapor" class="btn btn-primary">Buka</a>
     </div>
   </div>
 
@@ -100,24 +104,25 @@ body{
       <h4>📋</h4>
       <h5>Daftar Laporan</h5>
       <p>Lihat laporan yang ada</p>
-      <a href="index.html?page=daftar" class="btn btn-primary">Lihat</a>
+      <a href="index.php?page=daftar" class="btn btn-primary">Lihat</a>
     </div>
   </div>
 
+  <?php if(isset($_SESSION['role']) && $_SESSION['role'] == "admin"){ ?>
   <div class="col-md-4 mb-3">
     <div class="card p-4 text-center">
       <h4>⚙</h4>
       <h5>Admin Panel</h5>
       <p>Kelola laporan</p>
-      <a href="index.html?page=admin" class="btn btn-primary">Kelola</a>
+      <a href="index.php?page=admin" class="btn btn-primary">Kelola</a>
     </div>
   </div>
+  <?php } ?>
 
 </div>
 
 </div>
 
-<!-- SCRIPT -->
 <script>
 
 let data = JSON.parse(localStorage.getItem("laporan")) || [];
