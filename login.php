@@ -7,14 +7,30 @@ if(isset($_POST['login'])){
   $email = trim($_POST['email']);
   $password = trim($_POST['password']);
 
-  $query = mysqli_query($conn, "SELECT * FROM users WHERE email='$email' AND password='$password'");
+  $query = mysqli_query($conn, "SELECT * FROM users WHERE email='$email'");
+  $data = mysqli_fetch_assoc($query);
 
-  if(mysqli_num_rows($query) > 0){
-    $_SESSION['login'] = true;
-    header("Location: dashboard.php");
-    exit;
+  if($data){
+    if($data['password'] == $password){
+
+      $_SESSION['login'] = true;
+      $_SESSION['email'] = $email;
+
+      if($email == "admin@gmail.com"){
+        $_SESSION['role'] = "admin";
+      } else {
+        $_SESSION['role'] = "user";
+      }
+
+      header("Location: dashboard.php");
+      exit;
+
+    } else {
+      echo "<script>alert('Password salah!');</script>";
+    }
+
   } else {
-    echo "<script>alert('Email atau password salah!');</script>";
+    echo "<script>alert('Email tidak ditemukan!');</script>";
   }
 }
 ?>
