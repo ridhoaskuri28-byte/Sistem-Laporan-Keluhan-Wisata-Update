@@ -5,7 +5,6 @@ if(isset($_POST['register'])){
   $email = trim($_POST['email']);
   $password = trim($_POST['password']);
 
-  // cek email sudah ada atau belum
   $cek = mysqli_query($conn, "SELECT * FROM users WHERE email='$email'");
 
   if(mysqli_num_rows($cek) > 0){
